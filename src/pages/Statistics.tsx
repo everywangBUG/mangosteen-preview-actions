@@ -109,3 +109,5 @@ export const Statistics: React.FC = () => {
     </div>
   )
 }
+
+export default Statistics

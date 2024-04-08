@@ -7,11 +7,11 @@ import { Loading } from '../components/Loading'
 import { AddButton } from '../components/AddButton'
 
 interface IProps {
-  title: string
+  title?: string
 }
 
 export const Home: React.FC<IProps> = (props) => {
-  useTitle(props.title)
+  useTitle(props.title || '')
   const { get } = useAjax({ handleError: false })
   const { data: meData, error: meError } = useSWR('/api/v1/me', async path => {
     const response = await get<IResource<IUser>>(path)
@@ -44,3 +44,5 @@ export const Home: React.FC<IProps> = (props) => {
     </div>
   )
 }
+
+export default Home

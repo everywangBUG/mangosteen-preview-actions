@@ -1,22 +1,26 @@
 import { Outlet, createHashRouter } from 'react-router-dom'
 import type { AxiosError } from 'axios'
+import { Suspense, lazy } from 'react'
 import { ErrorPage } from '../pages/ErrorPage'
-import { Home } from '../pages/Home'
 import { Root } from '../components/Root'
 import { Items } from '../pages/Items'
 import { SignIn } from '../pages/SignIn'
 import { ItemsNew } from '../pages/ItemsNew'
 import { TagsNew } from '../pages/TagsNew'
 import { TagsEditNew } from '../pages/TagsEditNew'
-import { Statistics } from '../pages/Statistics'
 import { ItemsErrors } from '../pages/itemsError'
 import { ErrorEmptyData, ErrorUnauthorized } from '../constants/itemErrors'
 import { ajax } from '../lib/ajax'
+import { Loading } from '../components/Loading'
 import { welcomeRoute } from './welcomeRoute'
+
+// 大页面动态加载，小页面打包
+const Home = lazy(() => import('../pages/Home'))
+const Statistics = lazy(() => import('../pages/Statistics'))
 
 export const router = createHashRouter([
   { path: '/', element: <Root /> },
-  { path: '/home', element: <Home title='首页' /> },
+  { path: '/home', element: <Suspense fallback={<Loading />}><Home /></Suspense> },
   {
     path: '/',
     errorElement: <ErrorPage />,
@@ -74,7 +78,7 @@ export const router = createHashRouter([
       { path: '/items/new', element: <ItemsNew />, },
       { path: '/tags/new', element: <TagsNew /> },
       { path: '/tags/:id', element: <TagsEditNew /> },
-      { path: '/statistics', element: <Statistics /> },
+      { path: '/statistics', element: <Suspense fallback={<Loading />}><Statistics /></Suspense> },
       { path: '/export', element: <div>不做</div> },
       { path: '/tags', element: <div>标签</div> },
       { path: '/noty', element: <div>不做</div> },

@@ -3,8 +3,9 @@ import c from 'classnames'
 import { Icon } from './Icon'
 
 const Div = styled.div`
+  height: 100%;
   svg {
-    text-color: #5926b9;
+    color: #5926b9;
     animation: svg 2s infinite;
   }
 
